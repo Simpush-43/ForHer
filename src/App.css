@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  background: radial-gradient(#0b132b, #000);
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+}
+
+canvas {
+  height: 100vh !important;
+}
+
+.title {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  z-index: 10;
+  font-size: 1.5rem;
+}
+
+/* Stars */
+.stars span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}

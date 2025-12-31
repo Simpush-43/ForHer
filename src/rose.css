@@ -1,0 +1,592 @@
+/* ===== BASE ===== */
+
+/* ===== BASE ===== */
+
+.rose-container {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: 120px;
+  height: 320px;
+  transform: scale(1.05);
+  pointer-events: none;
+  z-index: 30;
+}
+
+.rose-container * {
+  position: absolute;
+  will-change: transform, opacity;
+}
+
+/* ===== GLASS ===== */
+
+.glass {
+  width: 260px;
+  height: 420px;
+  border: 3px solid rgba(255,255,255,0.45);
+  border-radius: 300px 300px 0 0;
+  left: -70px;
+  top: -100px;
+  border-bottom: 15px solid rgba(255,255,255,0.4);
+}
+
+/* ===== SOFT GLOW ===== */
+
+.glow {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  left: -25px;
+  top: -25px;
+  opacity: 0.7;
+  animation: glowPulse 4.5s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%   { box-shadow: 0 0 6px rgba(245,148,184,0.6); }
+  50%  { box-shadow: 0 0 18px rgba(245,148,184,0.9); }
+  100% { box-shadow: 0 0 6px rgba(245,148,184,0.6); }
+}
+
+/* ===== STEM ===== */
+
+.stem {
+  width: 6px;
+  height: 230px;
+  background: linear-gradient(to right,#0b6b0b,#0f8a0f,#0b6b0b);
+  left: 40px;
+  top: 80px;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  animation: growStem 1.6s ease-out forwards;
+  animation-delay: 0.4s;
+}
+
+@keyframes growStem {
+  to { transform: scaleY(1); }
+}
+
+/* ===== LEAVES ===== */
+
+.leaf {
+  width: 60px;
+  height: 32px;
+  background: linear-gradient(135deg,#4caf50,#1b5e20);
+  border-radius: 10% 90% 10% 90%;
+  transform: scale(0) rotate(-25deg);
+  transform-origin: left center;
+  animation: growLeaf 0.8s ease-out forwards;
+  animation-delay: 1.4s;
+  box-shadow: inset -4px -2px 6px rgba(0,0,0,0.25);
+}
+
+@keyframes growLeaf {
+  to { transform: scale(1) rotate(-25deg); }
+}
+
+.leaf::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  width: 2px;
+  height: 26px;
+  background: rgba(255,255,255,0.35);
+  transform: translateX(-50%);
+}
+
+.l1 { left: 15px; top: 140px; }
+.l2 { left: 45px; top: 170px; transform: scale(0) rotate(155deg); }
+
+/* ===== PETALS (LOGIC SAFE) ===== */
+
+.rose-petals .petal {
+  width: 52px;
+  height: 90px;
+margin-left: 14px;
+  --rot: 0deg;
+  --scale: 0.85;
+
+  transform-origin: bottom center;
+  transform:
+    rotate(var(--rot))
+    scale(var(--scale));
+
+  opacity: 0;
+  animation:
+    budAppear 0.8s ease-out forwards,
+    petalOpen 2s ease-out forwards;
+
+  animation-delay: 2.2s, 3.1s;
+
+  background: radial-gradient(circle at 30% 30%, #ff4f7b, #b81b43 70%);
+  border-radius: 60% 60% 55% 55% / 75% 75% 35% 35%;
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.35));
+  outline: 1px solid rgba(255,255,255,0.05);
+}
+
+@keyframes budAppear {
+  to { opacity: 1; }
+}
+
+@keyframes petalOpen {
+  to {
+    transform:
+      rotate(var(--rot))
+      rotateX(16deg)
+      scale(var(--scale));
+  }
+}
+
+/* ===== PETAL LAYERS ===== */
+
+.p1 { --rot: 15deg;  --scale: 0.7;  z-index: 6; filter: brightness(0.82); }
+.p2 { --rot: -28deg;--scale: 0.85; z-index: 5; }
+.p3 { --rot: 28deg; --scale: 0.85; z-index: 5; }
+
+.p4 { --rot: -14deg;--scale: 0.95; z-index: 4; }
+.p5 { --rot: 14deg; --scale: 0.95; z-index: 4; }
+
+.p6 { --rot: -6deg; --scale: 1.05; z-index: 3; filter: brightness(1.12); }
+.p7 { --rot: 6deg;  --scale: 1.05; z-index: 3; filter: brightness(1.12); }
+
+/* ===== FALLEN PETALS ===== */
+
+.fallen {
+  width: 40px;
+  height: 65px;
+  background: radial-gradient(circle at 30% 30%, #ff4f7b, #b81b43 75%);
+  border-radius: 60% 60% 55% 55% / 75% 75% 35% 35%;
+  top: 225px;
+  opacity: 0;
+  filter: blur(0.4px);
+}
+
+.f1 {
+  left: -8px;
+  animation: fallPetal 2.2s ease-out forwards;
+  animation-delay: 2.6s;
+}
+
+.f2 {
+  left: 60px;
+  animation: fallPetal 2.6s ease-out forwards;
+  animation-delay: 2.8s;
+}
+
+@keyframes fallPetal {
+  from { opacity: 1; transform: translateY(-60px) rotate(0deg); }
+  to   { opacity: 1; transform: translateY(0) rotate(40deg); }
+}
+
+/* ===== FINAL LIFE TOUCH ===== */
+
+.rose-container.bloom {
+  animation: gentleSway 6s ease-in-out infinite;
+}
+
+@keyframes gentleSway {
+  0%,100% { transform: scale(1.05) rotate(0deg); }
+  50%     { transform: scale(1.05) rotate(0.4deg); }
+}
+
+
+/* ===== GLASS ===== */
+
+.glass {
+  width: 260px;
+  height: 420px;
+  border: 3px solid rgba(255, 255, 255, 0.45);
+  border-radius: 300px 300px 0 0;
+  left: -70px;
+  top: -100px;
+  border-bottom: 15px solid rgba(255, 255, 255, 0.4);
+}
+
+/* ===== GLOW ===== */
+
+.glow {
+  width: 170px;
+  height: 170px;
+  opacity: 0.7;
+  animation: glowPulse 4.5s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 6px rgba(245,148,184,0.6);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(245,148,184,0.9);
+  }
+  100% {
+    box-shadow: 0 0 6px rgba(245,148,184,0.6);
+  }
+}
+
+
+/* ===== STEM & LEAVES ===== */
+
+.stem {
+  width: 6px;
+  height: 230px;
+  background: linear-gradient(to right, #0b6b0b, #0f8a0f, #0b6b0b);
+  left: 40px;
+  top: 80px;
+
+  transform-origin: bottom;
+  transform: scaleY(0);
+  animation: growStem 1.6s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes growStem {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.leaf {
+  width: 62px;
+  height: 34px;
+  background: linear-gradient(135deg, #4caf50, #1b5e20);
+  border-radius: 10% 90% 10% 90%;
+  transform: scale(0) rotate(-25deg);
+  transform-origin: left center;
+  box-shadow: inset -4px -2px 6px rgba(0, 0, 0, 0.25);
+
+  animation: growLeaf 0.8s ease-out forwards;
+  animation-delay: 1.6s;
+}
+
+@keyframes growLeaf {
+  to {
+    transform: scale(1) rotate(-25deg);
+  }
+}
+
+/* leaf veins */
+.leaf::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  width: 2px;
+  height: 26px;
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateX(-50%);
+}
+
+/* ===== THORNS ===== */
+
+.thorns div {
+  width: 30px;
+  height: 30px;
+  background: #066406;
+  top: 100px;
+  left: 10px;
+  border-radius: 19% 58% 19% 73%;
+}
+
+.thorns div:nth-child(2) {
+  top: 150px;
+  left: 45px;
+  transform: rotate(180deg);
+}
+.thorns div:nth-child(3) {
+  top: 190px;
+}
+.thorns div:nth-child(4) {
+  top: 230px;
+  left: 45px;
+  transform: rotate(180deg);
+}
+
+/* ===== PETALS ===== */
+
+.rose-petals .petal {
+  width: 52px;
+  height: 90px;
+  transform-style: preserve-3d;
+  transform-origin: bottom center;
+  background: radial-gradient(circle at 30% 30%, #ff4f7b, #b81b43 70%);
+
+  border-radius: 60% 60% 55% 55% / 75% 75% 35% 35%;
+
+  transform: scale(0.85);
+filter: drop-shadow(0 3px 5px rgba(0,0,0,0.35));
+
+
+  transition: transform 1.8s ease;
+}
+.rose-petals .petal {
+  transform: scale(0) rotate(0deg);
+  opacity: 0;
+  animation: budAppear 0.8s ease-out forwards;
+  animation-delay: 2.4s;
+  outline: 1px solid rgba(255,255,255,0.05);
+
+}
+
+@keyframes budAppear {
+  to {
+    transform: scale(0.85);
+    opacity: 1;
+  }
+}
+
+.rose-petals .petal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    to top right,
+    rgba(255, 255, 255, 0.15),
+    transparent 60%
+  );
+}
+.rose-petals .petal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(0, 0, 0, 0.15);
+  transform: translateZ(-4px);
+  filter: blur(2px);
+}
+
+/* inner petals */
+.p1 {
+  z-index: 6;
+  background: radial-gradient(circle at 40% 40%, #ff6f91, #b81b43 75%);
+  transform: rotate(15deg) scale(0.7);
+  filter: brightness(0.82) saturate(1.1);
+}
+
+/* mid petals */
+.p2,
+.p3 {
+  z-index: 5;
+  transform: scale(0.85);
+  filter: brightness(0.95);
+}
+
+.p4,
+.p5 {
+  z-index: 4;
+  transform: scale(0.95);
+  filter: brightness(1.05);
+}
+
+/* outer petals */
+.p6,
+.p7 {
+  z-index: 3;
+  transform: scale(1.05);
+  filter: brightness(1.12);
+}
+.p2 {
+  transform: skewX(-6deg);
+}
+.p3 {
+  transform: skewX(6deg);
+}
+
+.p4 {
+  transform: skewX(-3deg);
+}
+.p5 {
+  transform: skewX(3deg);
+}
+
+/* ===== PETAL BLOOM ===== */
+
+@keyframes openLeft {
+  to {
+    transform: rotate(-60deg) rotateX(18deg) scale(1);
+  }
+}
+
+@keyframes openRight {
+  to {
+    transform: rotate(60deg) rotateX(18deg) scale(1);
+  }
+}
+
+@keyframes openMidLeft {
+  to {
+    transform: rotate(-30deg) scale(1);
+  }
+}
+@keyframes openMidRight {
+  to {
+    transform: rotate(30deg) scale(1);
+  }
+}
+@keyframes openWideLeft {
+  to {
+    transform: rotate(-20deg) scale(1);
+  }
+}
+@keyframes openWideRight {
+  to {
+    transform: rotate(20deg) scale(1);
+  }
+}
+
+/* ===== SPARKLES ===== */
+
+.sparkles div {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ff96c0;
+  box-shadow: 0 0 12px 2px #ff4e85;
+  bottom: -40px;
+  opacity: 0;
+  animation: sparkle 4s ease-in-out infinite;
+}
+
+.sparkles div:nth-child(n) {
+  left: calc(-80px + 16px * var(--i));
+}
+
+@keyframes sparkle {
+  50% {
+    opacity: 1;
+  }
+  100% {
+    bottom: 260px;
+  }
+}
+.fallen-petals .fallen {
+  width: 40px;
+  height: 65px;
+  background: radial-gradient(circle at 30% 30%, #ff4f7b, #b81b43 75%);
+  border-radius: 60% 60% 55% 55% / 75% 75% 35% 35%;
+
+  position: absolute;
+  top: 220px;
+  opacity: 0;
+  filter: blur(0.4px);
+}
+
+.f1 {
+  left: -10px;
+  transform: rotate(-35deg);
+  animation: fallPetal 2.2s ease-out forwards;
+  animation-delay: 2.6s;
+}
+
+.f2 {
+  left: 60px;
+  transform: rotate(45deg);
+  animation: fallPetal 2.6s ease-out forwards;
+  animation-delay: 2.8s;
+}
+
+@keyframes fallPetal {
+  0% {
+    opacity: 1;
+    transform: translateY(-60px) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(40deg);
+  }
+}
+.rose-container.bloom {
+  animation: gentleSway 6s ease-in-out infinite;
+}
+
+@keyframes gentleSway {
+  0% {
+    transform: scale(1.05) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(0.4deg);
+  }
+  100% {
+    transform: scale(1.05) rotate(0deg);
+  }
+}
+/* side stems */
+.side-stems {
+  position: absolute;
+  left: 40px;
+  top: 120px;
+  pointer-events: none;
+}
+
+.mini-stem {
+  position: absolute;
+  width: 4px;
+  height: 90px;
+  background: linear-gradient(
+    to right,
+    #0b6b0b,
+    #0f8a0f,
+    #0b6b0b
+  );
+  transform-origin: bottom;
+  animation: growMiniStem 1.2s ease-out forwards;
+  animation-delay: 1.1s;
+  transform: scaleY(0);
+}
+
+@keyframes growMiniStem {
+  to { transform: scaleY(1); }
+}
+
+.mini-stem.left {
+  left: -1px;
+  rotate: -32deg;
+  transform: rotate(-28deg) scaleY(0) translateX(-15px);
+}
+
+.mini-stem.right {
+  left: 3px;
+  rotate: 32deg;
+  transform: rotate(18deg) scaleY(0);
+}
+/* mini buds  */
+.mini-bud {
+  position: absolute;
+  top: -26px;
+  left: -14px;
+  width: 28px;
+  height: 42px;
+
+  background: radial-gradient(
+    circle at 30% 30%,
+    #ff7fa2,
+    #c61f4a 70%
+  );
+
+  border-radius:
+    60% 60% 55% 55% /
+    75% 75% 35% 35%;
+
+  opacity: 0;
+  transform: scale(0.4);
+
+  animation: miniBudAppear 0.8s ease-out forwards;
+  animation-delay: 2.1s;
+
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
+}
+
+@keyframes miniBudAppear {
+  to {
+    opacity: 1;
+    transform: scale(0.65);
+  }
+}
+.side-stems {
+  z-index: 2;
+}
+
+.rose-petals {
+  z-index: 5;
+}
