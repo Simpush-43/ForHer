@@ -24,20 +24,20 @@ export default function App() {
   const pianoRef = useRef(null);
   const musicStarted = useRef(false);
   const NEW_YEAR_TIME = new Date("2026-01-01T00:00:00").getTime();
-  const DEV_MODE = true; // 👈 true = countdown OFF
+  const DEV_MODE = false; // 👈 true = countdown OFF
 
   const [unlocked, setUnlocked] = useState(DEV_MODE);
 
+
+  const handleGiftClick = () => {
+    if (!canClick) return;
   if (!musicStarted.current) {
     pianoRef.current = new Audio("/piano.mp3");
     pianoRef.current.loop = true;
-    pianoRef.current.volume = 0.0; // soft background
+    pianoRef.current.volume = 0.35; // soft background
     pianoRef.current.play().catch(() => {});
     musicStarted.current = false;
   }
-  const handleGiftClick = () => {
-    if (!canClick) return;
-
     setCanClick(false);
     setClicks((c) => c + 1);
 
