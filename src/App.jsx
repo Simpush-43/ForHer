@@ -24,7 +24,7 @@ export default function App() {
   const pianoRef = useRef(null);
   const musicStarted = useRef(false);
   const NEW_YEAR_TIME = new Date("2026-01-01T00:00:00").getTime();
-  const DEV_MODE = true; // 👈 true = countdown OFF
+  const DEV_MODE = false; // 👈 true = countdown OFF
 
   const [unlocked, setUnlocked] = useState(DEV_MODE);
 
